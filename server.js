@@ -10,7 +10,6 @@ const { loginLimiter, contactLimiter, publicLimiter } = require('./middlewares/r
 
 const app = express()
 
-// CORS configuration - حماية من الـ doomains غير المصرح بيها
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',')
   : ['http://localhost:3000', 'http://localhost:3001']
@@ -22,7 +21,7 @@ app.use(cors({
 
 app.use(express.json())
 
-// Apply rate limiting
+
 app.use(publicLimiter)
 
 app.use('/api/projects', require('./routes/routes'))
