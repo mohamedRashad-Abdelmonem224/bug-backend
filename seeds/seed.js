@@ -4,11 +4,8 @@ require('dotenv').config()
 
 async function seedAdmin() {
   try {
-    // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI)
     console.log('✓ Connected to MongoDB')
-
-    // Check if admin already exists
     const existingAdmin = await Admin.findOne({ username: 'admin' })
     
     if (existingAdmin) {
@@ -16,10 +13,9 @@ async function seedAdmin() {
       process.exit(0)
     }
 
-    // Create new admin
     const admin = await Admin.create({
-      username: process.env.ADMIN_USER || 'admin',
-      password: process.env.ADMIN_PASS || 'admin12345'
+      username: process.env.ADMIN_USER,
+      password: process.env.ADMIN_PASS
     })
 
     console.log('✓ Admin created successfully')
