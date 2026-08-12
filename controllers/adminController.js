@@ -9,7 +9,7 @@ exports.login = async (req, res, next) => {
     if (!admin) return res.status(401).json({ error: 'invalid credentials' })
     const valid = await admin.comparePassword(password)
     if (!valid) return res.status(401).json({ error: 'invalid credentials' })
-    const token = jwt.sign({ id: admin._id, username: admin.username }, process.env.JWT_SECRET || 'secret', { expiresIn: '8h' })
+    const token = jwt.sign({ id: admin._id, username: admin.username }, process.env.JWT_SECRET, { expiresIn: '8h' })
     res.json({ token })
   } catch (err) {
     next(err)

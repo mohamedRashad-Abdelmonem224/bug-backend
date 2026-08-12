@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: 'Unauthorized' })
   const token = auth.split(' ')[1]
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret')
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
     req.admin = decoded
     next()
   } catch (err) {
