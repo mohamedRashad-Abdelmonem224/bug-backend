@@ -1,14 +1,29 @@
 const dns = require('dns')
-dns.setServers(['8.8.8.8', '8.8.4.4'])
+dns.setServers(['8.8.8.8', '8.8.4.8'])
 
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
 
+const { loginLimiter, contactLimiter, publicLimiter } = require('./middlewares/rateLimiter')
+
 const app = express()
-app.use(cors())
+
+// CORS configuration - حماية من الـ doomains غير المصرح بيها
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:3000', 'http://localhost:3001']
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}))
+
 app.use(express.json())
+
+// Apply rate limiting
+app.use(publicLimiter)
 
 app.use('/api/projects', require('./routes/routes'))
 app.use('/api/services', require('./routes/services'))

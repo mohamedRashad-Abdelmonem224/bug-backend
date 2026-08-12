@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const adminController = require('../controllers/adminController')
 const auth = require('../middlewares/auth')
+const { loginLimiter } = require('../middlewares/rateLimiter')
 const Project = require('../models/Project')
 const Contact = require('../models/Contact')
 
-router.post('/login', adminController.login)
+router.post('/login', loginLimiter, adminController.login)
 router.get('/projects', auth, async (req, res, next) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 })
