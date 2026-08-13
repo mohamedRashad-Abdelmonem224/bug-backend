@@ -46,7 +46,8 @@ mongoose.connect(process.env.MONGODB_URI)
 	})
 	.catch(err => {
 		console.error('DB connection error', err)
-		process.exit(1)
+		// Start server anyway for local testing (DB may be unavailable)
+		app.listen(PORT, () => console.log(`Server run on ${PORT} (DB unavailable)`))
 	})
 
 app.use(errorHandler)
