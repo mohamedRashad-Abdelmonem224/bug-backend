@@ -2,6 +2,7 @@ const dns = require('dns')
 dns.setServers(['8.8.8.8', '8.8.4.8'])
 
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
@@ -30,6 +31,10 @@ app.use('/api/team', require('./routes/team'))
 app.use('/api/blog', require('./routes/blog'))
 app.use('/api/contact', require('./routes/contact'))
 app.use('/api/admin', require('./routes/admin'))
+// serve uploaded files (local storage)
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')))
+// uploads route
+app.use('/api/uploads', require('./routes/uploads'))
 
 const errorHandler = require('./middlewares/errorHandler')
 

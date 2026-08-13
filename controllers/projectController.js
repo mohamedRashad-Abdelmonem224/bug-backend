@@ -11,7 +11,11 @@ exports.getProjects = async (req, res, next) => {
 
 exports.createProject = async (req, res, next) => {
   try {
-    const project = await Project.create(req.body)
+    const data = { ...req.body }
+    if (data.images && Array.isArray(data.images) && data.images.length > 0 && !data.cover) {
+      data.cover = data.images[0]
+    }
+    const project = await Project.create(data)
     res.status(201).json(project)
   } catch (err) {
     next(err)

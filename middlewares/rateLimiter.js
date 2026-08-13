@@ -17,9 +17,8 @@ exports.contactLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 })
-
 exports.publicLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
+  windowMs: 60 * 1000, 
   max: 100,
   message: 'too many requests, please try again later',
   standardHeaders: true,
