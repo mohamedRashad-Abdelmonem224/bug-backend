@@ -1,3 +1,7 @@
+const fs = require('fs')
+const uploadDir = path.join(__dirname, '..', 'public', 'uploads')
+fs.mkdirSync(uploadDir, { recursive: true })
+
 const router = require('express').Router()
 const multer = require('multer')
 const path = require('path')
