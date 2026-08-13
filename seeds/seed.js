@@ -8,13 +8,15 @@ async function seedAdmin() {
   try {
     await mongoose.connect(process.env.MONGODB_URI)
     console.log('✓ Connected to MongoDB')
-    const existingAdmin = await Admin.findOne({ username: 'admin' })
+    
+    const existingAdmin = await Admin.findOne({ username: process.env.ADMIN_USER })
     
     if (existingAdmin) {
-      console.log('✓ Admin already exists')
-      process.exit(0)
+      console.log('✓ Admin already exists. No changes made.')
+      process.exit(0) 
     }
 
+   
     const admin = await Admin.create({
       username: process.env.ADMIN_USER,
       password: process.env.ADMIN_PASS
@@ -22,8 +24,6 @@ async function seedAdmin() {
 
     console.log('✓ Admin created successfully')
     console.log(`Username: ${process.env.ADMIN_USER}`)
-    console.log(`Password: ${process.env.ADMIN_PASS}`)
-  
     
     process.exit(0)
   } catch (err) {
